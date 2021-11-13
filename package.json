@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"description": "CLI for dumping transactions from Israel financial insitutions to csv.",
 	"license": "MIT",
-	"repository": "YOUR-GITHUB-USERNAME/unicorn-fun-cli",
+	"repository": "https://github.com/sushi30/israeli-bank-scrapers-cli",
 	"author": {
 		"name": "Imri Paran",
 		"email": "imri.paran@gmail.com"
