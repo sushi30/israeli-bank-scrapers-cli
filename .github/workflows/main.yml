@@ -1,21 +1,25 @@
-name: CI
+name: Release
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - master
 jobs:
-  test:
-    name: Node.js ${{ matrix.node-version }}
+  release:
+    name: Release
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version:
-          - 14
-          - 12
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm test
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+      - name: Install dependencies
+        run: npm ci
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
