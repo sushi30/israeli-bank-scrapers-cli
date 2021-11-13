@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 const { createCommand } = require("commander");
-import color from "colorette";
+import { createColors } from "colorette";
 import { scrape } from "./utils/scrape";
 
+const color = createColors();
 const command = createCommand();
 
 function exit(text: any) {
@@ -27,16 +28,14 @@ function success(text: string) {
 function invoke() {
 	let modulePackage: any = {};
 
-	const cliVersion = [
-		color.blue("Knex CLI version:"),
-		color.green("0"),
-	].join(" ");
+	const cliVersion = [color.blue("Knex CLI version:"), color.green("0")].join(
+		" "
+	);
 
 	const localVersion = [
 		color.blue("Knex Local version:"),
 		color.green(modulePackage.version || "None"),
 	].join(" ");
-
 
 	command
 		.command("scrape")
