@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-const { createCommand } = require("commander");
+import { createCommand } from "commander";
 import { createColors } from "colorette";
-import { scrape } from "./utils/scrape";
+import { addScrapeOptions, scrape } from "./utils/scrape";
+import path from "path";
+import fs from "fs";
 
 const color = createColors();
 const command = createCommand();
@@ -27,7 +29,10 @@ function success(text: string) {
 
 function invoke() {
 	let modulePackage: any = {};
-
+	try {
+		const packageJSONPath = path.resolve(__dirname, "../package.json");
+		modulePackage = JSON.parse(fs.readFileSync(packageJSONPath).toString());
+	} catch (e) {}
 	const cliVersion = [color.blue("Knex CLI version:"), color.green("0")].join(
 		" "
 	);
@@ -36,19 +41,18 @@ function invoke() {
 		color.blue("Knex Local version:"),
 		color.green(modulePackage.version || "None"),
 	].join(" ");
-
-	command
-		.command("scrape")
-		.description("Scrape transactions.")
-		.option("--verbose", "verbose")
-		.option("--specific", "run specific seed file")
-		.action(() => {
-			scrape(command.opts())
-				.then(() => {
-					success(color.green(`Scraped succesfully`));
-				})
-				.catch(exit);
-		});
+	addScrapeOptions(
+		command
+			.version(`${cliVersion}\n${localVersion}`)
+			.command("scrape")
+			.description("Scrape transactions.")
+	).action((options) => {
+		scrape(options)
+			.then(() => {
+				success(color.green(`Scraped succesfully`));
+			})
+			.catch(exit);
+	});
 
 	command.parse(process.argv);
 }
