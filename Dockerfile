@@ -1,7 +1,7 @@
 FROM node:15.10.0-buster AS builder
 ENV NODE_ENV=development
 WORKDIR /app
-COPY package.json ./
+COPY package.json package-lock.json ./
 RUN npm install
 COPY . ./
 RUN npm run build --loglevel verbose
