@@ -18,6 +18,9 @@
 		"dev": "ts-node -r dotenv/config src/cli.ts",
 		"build": "tsc"
 	},
+	"files": [
+		"bin/**/*"
+	],
 	"keywords": [
 		"cli",
 		"banks",
