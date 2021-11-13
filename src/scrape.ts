@@ -81,7 +81,6 @@ function getCredentials(companyId: CompanyTypes): Record<string, string> {
 }
 
 export async function scrape(options: any) {
-	console.log({ optons: options });
 	const scraper = createScraper(options);
 	const credenetials = getCredentials(options.companyId);
 	if (Object.keys(credenetials).length < 2) {
