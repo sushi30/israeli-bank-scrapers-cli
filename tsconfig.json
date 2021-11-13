@@ -8,6 +8,7 @@
 		"skipLibCheck": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"outDir": "bin"
+		"outDir": "bin",
+		"noImplicitReturns": true
 	}
 }

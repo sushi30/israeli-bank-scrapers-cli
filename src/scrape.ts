@@ -3,9 +3,13 @@ import { Command } from "commander";
 import { TransactionsAccount } from "israeli-bank-scrapers/lib/transactions";
 import moment from "moment";
 import * as json2csv from "json2csv";
-import * as fs from "fs/promises";
+import * as fs from "fs";
 
-export function addScrapeOptions(command: Command) {
+function commaSeparatedList(value: string, _: any): string[] {
+	return value.split(",");
+}
+
+export function addScrapeOptions(command: Command): Command {
 	command
 		.requiredOption("--output <output>")
 		.requiredOption("--company-id <company-id>")
@@ -15,7 +19,7 @@ export function addScrapeOptions(command: Command) {
 		.option("--browser <browser>")
 		.option("--executable-path <executable-path>")
 		.option("--combine-installments")
-		.option("--args <args>")
+		.option("--args <args>", "", commaSeparatedList)
 		.option(
 			"--store-failure-screen-shot-path <store-failure-screen-shot-path>"
 		);
@@ -54,7 +58,7 @@ export function exportTransactions(
 	}
 
 	const csv = json2csv.parse(data, { withBOM: true });
-	return fs.writeFile(path, csv);
+	return fs.writeFileSync(path, csv);
 }
 
 function getCredentials(companyId: CompanyTypes): Record<string, string> {
@@ -77,6 +81,7 @@ function getCredentials(companyId: CompanyTypes): Record<string, string> {
 }
 
 export async function scrape(options: any) {
+	console.log({ optons: options });
 	const scraper = createScraper(options);
 	const credenetials = getCredentials(options.companyId);
 	if (Object.keys(credenetials).length < 2) {

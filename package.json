@@ -1,13 +1,12 @@
 {
-	"name": "unicorn-fun-cli",
+	"name": "israeli-bank-scrapers-cli",
 	"version": "0.0.0",
-	"description": "My awesome command-line tool",
+	"description": "CLI for dumping transactions from Israel financial insitutions to csv.",
 	"license": "MIT",
 	"repository": "YOUR-GITHUB-USERNAME/unicorn-fun-cli",
 	"author": {
-		"name": "YOUR NAME",
-		"email": "YOUR EMAIL",
-		"url": "YOUR WEBSITE"
+		"name": "Imri Paran",
+		"email": "imri.paran@gmail.com"
 	},
 	"bin": {
 		"ibs": "bin/cli.js"
@@ -16,11 +15,9 @@
 		"node": ">=12"
 	},
 	"scripts": {
-		"test": "xo && ava"
+		"dev": "ts-node -r dotenv/config src/cli.ts",
+		"build": "tsc"
 	},
-	"files": [
-		"cli.js"
-	],
 	"keywords": [
 		"cli",
 		"banks",

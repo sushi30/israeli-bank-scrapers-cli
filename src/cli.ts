@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { createCommand } from "commander";
 import { createColors } from "colorette";
-import { addScrapeOptions, scrape } from "./utils/scrape";
+import { addScrapeOptions, scrape } from "./scrape";
 import path from "path";
 import fs from "fs";
 
@@ -33,19 +33,13 @@ function invoke() {
 		const packageJSONPath = path.resolve(__dirname, "../package.json");
 		modulePackage = JSON.parse(fs.readFileSync(packageJSONPath).toString());
 	} catch (e) {}
-	const cliVersion = [color.blue("Knex CLI version:"), color.green("0")].join(
-		" "
-	);
-
-	const localVersion = [
-		color.blue("Knex Local version:"),
-		color.green(modulePackage.version || "None"),
+	const cliVersion = [
+		color.blue("CLI version:"),
+		color.green(modulePackage.version),
 	].join(" ");
+	command.version(`${cliVersion}`);
 	addScrapeOptions(
-		command
-			.version(`${cliVersion}\n${localVersion}`)
-			.command("scrape")
-			.description("Scrape transactions.")
+		command.command("scrape").description("Scrape transactions.")
 	).action((options) => {
 		scrape(options)
 			.then(() => {
